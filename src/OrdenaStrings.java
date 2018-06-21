@@ -16,36 +16,25 @@ public class OrdenaStrings {
 //            System.out.println(palavra);
 //        }
 
-        Consumer<String> consumidor = new ConsumidorDeString();
-        palavras.forEach(consumidor);
-
-        Comparator<String> comparador = new ComparadorDeStringPorTamanho();
+        palavras.forEach(System.out::println);
 
 //        Collections.sort(palavras, comparador);
-        palavras.sort(comparador);
+
+        palavras.sort((s1, s2) -> {
+            if (s1.length() > s2.length())
+                return -1;
+            if (s1.length() < s2.length())
+                return 1;
+            return 0;
+        });
+
+        palavras.sort(Comparator.comparingInt(String::length));
         System.out.println(palavras);
 
+        new Thread(() -> System.out.println("Executando um Runnable")).start();
+
     }
 }
 
-class ComparadorDeStringPorTamanho implements Comparator<String> {
 
 
-    @Override
-    public int compare(String s1, String s2) {
-
-        if (s1.length() > s2.length())
-            return -1;
-        if (s1.length() < s2.length())
-            return 1;
-        return 0;
-    }
-}
-
-class ConsumidorDeString implements Consumer<String> {
-
-    @Override
-    public void accept(String s) {
-        System.out.println(s);
-    }
-}
