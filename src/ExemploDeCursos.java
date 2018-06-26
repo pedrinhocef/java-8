@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ExemploDeCursos {
@@ -16,24 +15,47 @@ public class ExemploDeCursos {
         cursos.sort(Comparator.comparingInt(c -> c.getAlunos()));
         cursos.sort(Comparator.comparingInt(Curso::getAlunos));
 
-        cursos.stream()
-                .filter(c -> c.getAlunos() > 100)
-                .forEach(c -> System.out.println(c.getNome()));
+//        cursos.stream()
+//                .filter(c -> c.getAlunos() > 100)
+//                .forEach(c -> System.out.println(c.getNome()));
+
+//        cursos.stream()
+//                .filter(c -> c.getAlunos() > 100)
+//                .map(Curso::getAlunos)
+//                .forEach(System.out::println);
+//
+//
+//        int soma = cursos.stream()
+//                .filter(c -> c.getAlunos() > 100)
+//                .mapToInt(Curso::getAlunos)
+//                .sum();
+//
+//        System.out.println(soma);
+//
+//        Stream<String> nomes = cursos.stream().map(Curso::getNome);
+//        System.out.println(nomes);
 
         cursos.stream()
                 .filter(c -> c.getAlunos() > 100)
-                .map(Curso::getAlunos)
-                .forEach(System.out::println);
+                .findAny()
+                .ifPresent(c -> System.out.println(c.getNome()));
+
+        cursos.stream()
+                .filter(c -> c.getAlunos() > 35)
+                .findFirst()
+                .ifPresent(c -> System.out.println(c.getNome()));
+
+        cursos.stream()
+                .filter(c -> c.getAlunos() > 75)
+                .collect(Collectors.toList());
 
 
-        int soma = cursos.stream()
+        Map mapa = cursos
+                .stream()
                 .filter(c -> c.getAlunos() > 100)
-                .mapToInt(Curso::getAlunos)
-                .sum();
+                .collect(Collectors.toMap(c -> c.getNome(), c -> c.getAlunos()));
+        System.out.println(mapa);
 
-        System.out.println(soma);
 
-        Stream<String> nomes = cursos.stream().map(Curso::getNome);
-        System.out.println(nomes);
     }
 }
